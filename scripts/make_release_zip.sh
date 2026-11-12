@@ -37,18 +37,24 @@ cp "$ANALYZER_EXE" "$SRC/snesrecomp/recompiler-rs/target/release/snesrecomp-anal
 # Submodule pins in git are the clean framework SHAs. This repo's
 # patches/*-dc.patch must be applied to the shipped source so the
 # player's first-run Generate & rebuild sees the same host as setup.sh.
+# The packager copies the working tree, so the patch may already be applied.
+# `patch` is used because the staged tree has no .git.
 for sub in snesrecomp recomp-ui; do
   PATCH="$ROOT/patches/${sub}-dc.patch"
   [ -f "$PATCH" ] || continue
-  if git apply --directory="$SRC/$sub" --check "$PATCH" >/dev/null 2>&1; then
-    git apply --directory="$SRC/$sub" --whitespace=nowarn "$PATCH"
+  out=$(mktemp)
+  if ( cd "$SRC/$sub" && patch -p1 --forward --batch --dry-run < "$PATCH" ) >"$out" 2>&1; then
+    ( cd "$SRC/$sub" && patch -p1 --forward --batch < "$PATCH" ) >/dev/null
     echo "applied $(basename "$PATCH") to staged $sub"
-  elif git apply --directory="$SRC/$sub" --reverse --check "$PATCH" >/dev/null 2>&1; then
+  elif grep -Eq "previously applied|Reversed" "$out"; then
     echo "already applied: $(basename "$PATCH")"
   else
     echo "make_release_zip: could not apply $PATCH to staged $sub" >&2
+    cat "$out" >&2
+    rm -f "$out"
     exit 1
   fi
+  rm -f "$out"
 done
 
 
