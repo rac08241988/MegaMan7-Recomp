@@ -1,0 +1,8 @@
+[submodule "snesrecomp"]
+	path = snesrecomp
+	url = https://github.com/magnopaz/snesrecomp.git
+	branch = demons-crest/host-hooks
+[submodule "recomp-ui"]
+	path = recomp-ui
+	url = https://github.com/magnopaz/recomp-ui.git
+	branch = demons-crest/pins

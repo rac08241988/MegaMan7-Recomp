@@ -1,0 +1,4 @@
+/* Windows application icon: original SNES front box art, letterboxed. */
+/* Path is relative to this file so windres finds it on the player's */
+/* first-run rebuild as well as on the setup-host build. */
+1 ICON "app.ico"

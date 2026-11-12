@@ -1,0 +1,7 @@
+Original SNES front box art (Named_Boxarts), letterboxed onto a square.
+Source file: Randall's Google Drive 'Mega Man 7 (USA).png'
+  id: 1ipdt8a1UToO01gU4MF0f4APmLlLPzMkB  size: 512x364  bytes: 221885
+  This is the libretro Named_Boxarts cover (Super Nintendo logo,
+  Official Nintendo Seal, Capcom, ESRB). Not a title screen and not a snap.
+Preferred public URL (same collection):
+  https://thumbnails.libretro.com/Nintendo%20-%20Super%20Nintendo%20Entertainment%20System/Named_Boxarts/Mega%20Man%207%20(USA).png

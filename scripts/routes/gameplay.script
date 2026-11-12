@@ -1,0 +1,11 @@
+# Mega Man 7: boot toward the title, then press Start.
+#
+# Timings are a first-pass seed, not a proven route through every intro.
+#   ./build/MegaMan7SNESRecomp "<rom>" --script scripts/routes/gameplay.script
+#
+# `turbo on` changes presentation pacing only (no guest frames are added).
+turbo on
+wait 3600
+press start 4
+wait 3600
+quit

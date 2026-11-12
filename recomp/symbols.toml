@@ -1,0 +1,24 @@
+# Progressive symbol map for Mega Man 7 (USA).
+# Each [[func]] names an address the analyzer should treat as a function.
+# emit = true promotes it to ahead-of-time codegen; false keeps it interpreted.
+
+[[func]]
+name = "I_RESET"
+addr = "8000"
+bank = 0
+emit = false
+note = "Emulation RESET vector ($FFFC)"
+
+[[func]]
+name = "I_NMI"
+addr = "0304"
+bank = 0
+emit = false
+note = "Native and emulation NMI vector ($FFEA / $FFFA)"
+
+[[func]]
+name = "I_IRQ"
+addr = "0300"
+bank = 0
+emit = false
+note = "Native IRQ vector ($FFEE)"

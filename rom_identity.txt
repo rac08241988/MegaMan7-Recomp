@@ -1,0 +1,14 @@
+# ROM identity for Mega Man 7 (USA) — the single source of truth.
+# Read by the build (snesrecomp_rom_identity.h), tools/regen.sh and packaging.
+# Digests are of the bare image (copier header stripped).
+
+display_name    = Mega Man 7
+rom_file        = Mega Man 7 (USA).sfc
+expected_crc32  = 2d947536
+expected_md5    = 301d8c4f1b5de2cd10b68686b17b281a
+expected_sha1   = 6e7c9c9dd397f771303ee4aec29d106b9f86c832
+expected_sha256 = a255fec32453739903a1954149f19bc9658f4a415600b44badf1d4e5e13a16f9
+rom_size        = 2097152
+mapping         = hirom
+region          = USA
+game_id         = megaman7-usa

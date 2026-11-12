@@ -1,0 +1,63 @@
+#ifndef DC_WIDESCREEN_H
+#define DC_WIDESCREEN_H
+
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "dc_display.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+ * Mega Man 7 widescreen policy (host-side, platform-neutral). See docs/WIDESCREEN_PLAN.md.
+ *
+ * The frame is widened by the host (SnesDesktopHostGame.native_widescreen),
+ * which publishes PpuSetExtraSpace every frame in prepare_frame. This module
+ * publishes the per-frame layer policies in begin_sim_frame, after that call
+ * (PpuSetExtraSpace* clears the layer policies, so the order matters).
+ *
+ * The effective switch is g_config.widescreen: both the mod package and the
+ * launcher's Widescreen control drive it. With it off, every function here is
+ * a no-op and presentation stays authentically 4:3.
+ */
+
+/* Aspect selected by the mod's option (DC_ASPECT_*); owned by the plugin. */
+extern DcRenderAspect g_dc_aspect;
+
+/* Reset mod-owned state (runtime reset callback / mod disabled). */
+void DcWidescreenReset(void);
+
+/* Publish this frame's policies. Called from begin_sim_frame. */
+void DcWidescreenConfigureFrame(void);
+
+/* Capture the native viewport for world-keyed margin history. Called from
+ * end_sim_frame, after the frame's raster. No-op until the room-map capture
+ * lands (plano, Fase 3). */
+void DcWidescreenAfterRaster(void);
+
+/*
+ * Fase 4 — objects and sprites in the margins.
+ *
+ * DcWsObjectCullMargin() is called by the injected generated-code hooks (the
+ * bank $82 object loop's cull window and the bank $00/$80 sprite emitter's X
+ * test): it widens both by this many pixels per side. 0 restores the
+ * authentic windows exactly (the injected expressions then evaluate to the
+ * original constants), so the 4:3 path stays bit-identical. Gated by
+ * DcWsLiveMargin(): widescreen enabled AND active AND the stage gameplay
+ * gate; SNESRECOMP_WS_OAM=0 disables both hooks.
+ */
+int DcWsObjectCullMargin(void);
+int DcWsLiveMargin(void);
+
+/* The Widescreen setting (0 Off, 1 Adaptive, 2 16:9, 3 21:9, 4 32:9): the mod
+ * feature the Mods screen edits, applied live. src/mods/dc_widescreen_plugin.c */
+int DcWidescreenSetting_Get(void);
+int DcWidescreenSetting_Set(int index);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* DC_WIDESCREEN_H */
